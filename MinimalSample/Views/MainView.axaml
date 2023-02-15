@@ -4,10 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:MinimalSample.ViewModels"
 			 xmlns:local="clr-namespace:MinimalSample"
+			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MinimalSample.Views.MainView"
              Foreground="White"
-             Background="#171C2C">
+             Background="#171C2C"
+			 x:DataType="viewModels:MainViewModel"
+			 x:CompileBindings="True">
   <Design.DataContext>
     <!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
@@ -21,7 +25,7 @@
 	
 	
 	<Grid RowDefinitions="Auto, *" Margin="20" >
-		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50" >
 			<Button Command="{Binding SetDirectionClick}" CommandParameter="Left">Set Left</Button>
 			<Button Command="{Binding SetDirectionClick}" CommandParameter="Right">Set Right</Button>
 			<Button Command="{Binding SetDirectionClick}" CommandParameter="Above">Set Above</Button>
@@ -31,44 +35,51 @@
 			<RelativePanel x:Name="relativePanel">
 				<Rectangle x:Name="R1" Width="50" Height="50" Fill="White"
 						   RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-				<Rectangle x:Name="R2" Width="50" Height="50" Fill="Red">
+				<Rectangle x:Name="R2" Width="50" Height="50" Fill="Red" Tag="{Binding Tag}"/>
+						<!--<i:Interaction.Behaviors>
+							<ia:EventTriggerBehavior EventName="PropertyChanged"  SourceObject="{Binding #R2.Tag}">
+								<ia:InvokeCommandAction Command="{Binding SetDirectionClick}"/>
+							</ia:EventTriggerBehavior>
+						</i:Interaction.Behaviors>
+				</Rectangle>-->
+				<!--<Rectangle x:Name="R2" Width="50" Height="50" Fill="Red">
 					<RelativePanel.AlignVerticalCenterWith>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
 							<Binding Path="#relativePanel"/>
 							<Binding Path="VerticalCenterWith"/>
 						</MultiBinding>
 					</RelativePanel.AlignVerticalCenterWith>
 					<RelativePanel.AlignHorizontalCenterWith>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
 							<Binding Path="#relativePanel"/>
 							<Binding Path="HorizontalCenterWith"/>
 						</MultiBinding>
 					</RelativePanel.AlignHorizontalCenterWith>
 					<RelativePanel.RightOf>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
 							<Binding Path="#relativePanel"/>
 							<Binding Path="RightOf"/>
 						</MultiBinding>
 					</RelativePanel.RightOf>
 					<RelativePanel.LeftOf>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
 							<Binding Path="#relativePanel"/>
 							<Binding Path="LeftOf"/>
 						</MultiBinding>
 					</RelativePanel.LeftOf>
 					<RelativePanel.Above>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
 							<Binding Path="#relativePanel"/>
 							<Binding Path="Above"/>
 						</MultiBinding>
 					</RelativePanel.Above>
 					<RelativePanel.Below>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
 							<Binding Path="#relativePanel"/>
 							<Binding Path="Below"/>
 						</MultiBinding>
 					</RelativePanel.Below>
-				</Rectangle>
+				</Rectangle>-->
 			</RelativePanel>
 		</Border>
 	</Grid>
