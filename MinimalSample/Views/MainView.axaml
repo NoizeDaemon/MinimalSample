@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:MinimalSample.ViewModels"
+			 xmlns:local="clr-namespace:MinimalSample"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MinimalSample.Views.MainView"
+             Foreground="White"
+             Background="#171C2C">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <viewModels:MainViewModel />
+  </Design.DataContext>
+
+	<UserControl.Resources>
+		<local:StringToRectangleConverter x:Key="stringToRectangleConverter"/>
+	</UserControl.Resources>
+	
+	
+	
+	<Grid RowDefinitions="Auto, *" Margin="20" >
+		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+			<Button Command="{Binding SetDirectionClick}" CommandParameter="Left">Set Left</Button>
+			<Button Command="{Binding SetDirectionClick}" CommandParameter="Right">Set Right</Button>
+			<Button Command="{Binding SetDirectionClick}" CommandParameter="Above">Set Above</Button>
+			<Button Command="{Binding SetDirectionClick}" CommandParameter="Below">Set Below</Button>
+		</StackPanel>
+		<Border Grid.Row="1" BorderBrush="Cyan" BorderThickness="2">
+			<RelativePanel x:Name="relativePanel">
+				<Rectangle x:Name="R1" Width="50" Height="50" Fill="White"
+						   RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+				<Rectangle x:Name="R2" Width="50" Height="50" Fill="Red">
+					<RelativePanel.AlignVerticalCenterWith>
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+							<Binding Path="#relativePanel"/>
+							<Binding Path="VerticalCenterWith"/>
+						</MultiBinding>
+					</RelativePanel.AlignVerticalCenterWith>
+					<RelativePanel.AlignHorizontalCenterWith>
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+							<Binding Path="#relativePanel"/>
+							<Binding Path="HorizontalCenterWith"/>
+						</MultiBinding>
+					</RelativePanel.AlignHorizontalCenterWith>
+					<RelativePanel.RightOf>
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+							<Binding Path="#relativePanel"/>
+							<Binding Path="RightOf"/>
+						</MultiBinding>
+					</RelativePanel.RightOf>
+					<RelativePanel.LeftOf>
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+							<Binding Path="#relativePanel"/>
+							<Binding Path="LeftOf"/>
+						</MultiBinding>
+					</RelativePanel.LeftOf>
+					<RelativePanel.Above>
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+							<Binding Path="#relativePanel"/>
+							<Binding Path="Above"/>
+						</MultiBinding>
+					</RelativePanel.Above>
+					<RelativePanel.Below>
+						<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+							<Binding Path="#relativePanel"/>
+							<Binding Path="Below"/>
+						</MultiBinding>
+					</RelativePanel.Below>
+				</Rectangle>
+			</RelativePanel>
+		</Border>
+	</Grid>
+
+
+</UserControl>
