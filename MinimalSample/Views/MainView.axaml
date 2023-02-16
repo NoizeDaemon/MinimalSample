@@ -4,8 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:MinimalSample.ViewModels"
 			 xmlns:local="clr-namespace:MinimalSample"
-			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-			 xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MinimalSample.Views.MainView"
              Foreground="White"
@@ -111,18 +109,18 @@
 								<Binding Path="EasyLeftTarget"/>
 							</MultiBinding>
 						</local:EasyAlignWith.EasyLeftOf>
-						<local:EasyAlignWith.EasyLeftOf>
+						<local:EasyAlignWith.EasyAbove>
 							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
 								<Binding Path="$parent"/>
 								<Binding Path="EasyAboveTarget"/>
 							</MultiBinding>
-						</local:EasyAlignWith.EasyLeftOf>
-						<local:EasyAlignWith.EasyLeftOf>
+						</local:EasyAlignWith.EasyAbove>
+						<local:EasyAlignWith.EasyBelow>
 							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
 								<Binding Path="$parent"/>
 								<Binding Path="EasyBelowTarget"/>
 							</MultiBinding>
-						</local:EasyAlignWith.EasyLeftOf>
+						</local:EasyAlignWith.EasyBelow>
 					</Rectangle>
 				</RelativePanel>
 			</Border>
