@@ -24,10 +24,10 @@
 	
 	<Grid RowDefinitions="Auto, *" ColumnDefinitions="*,*,*" Margin="20">
 		<StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50" >
-			<Button Command="{Binding SetDirectionClick}" CommandParameter="Left">Set Left</Button>
-			<Button Command="{Binding SetDirectionClick}" CommandParameter="Right">Set Right</Button>
-			<Button Command="{Binding SetDirectionClick}" CommandParameter="Above">Set Above</Button>
-			<Button Command="{Binding SetDirectionClick}" CommandParameter="Below">Set Below</Button>
+			<Button Command="{Binding SetDirectionCommand}" CommandParameter="Left">Set Left</Button>
+			<Button Command="{Binding SetDirectionCommand}" CommandParameter="Right">Set Right</Button>
+			<Button Command="{Binding SetDirectionCommand}" CommandParameter="Above">Set Above</Button>
+			<Button Command="{Binding SetDirectionCommand}" CommandParameter="Below">Set Below</Button>
 		</StackPanel>
 		
 		<!--Method 1-->
@@ -111,18 +111,18 @@
 								<Binding Path="EasyLeftTarget"/>
 							</MultiBinding>
 						</local:EasyAlignWith.EasyLeftOf>
-						<local:EasyAlignWith.EasyLeftOf>
+						<local:EasyAlignWith.EasyAbove>
 							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
 								<Binding Path="$parent"/>
 								<Binding Path="EasyAboveTarget"/>
 							</MultiBinding>
-						</local:EasyAlignWith.EasyLeftOf>
-						<local:EasyAlignWith.EasyLeftOf>
+						</local:EasyAlignWith.EasyAbove>
+						<local:EasyAlignWith.EasyBelow>
 							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
 								<Binding Path="$parent"/>
 								<Binding Path="EasyBelowTarget"/>
 							</MultiBinding>
-						</local:EasyAlignWith.EasyLeftOf>
+						</local:EasyAlignWith.EasyBelow>
 					</Rectangle>
 				</RelativePanel>
 			</Border>

@@ -3,120 +3,68 @@ using ReactiveUI;
 using System;
 using System.Diagnostics;
 using System.Reactive;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace MinimalSample.ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public partial class MainViewModel : ObservableObject
     {
         //For Method 1:
+        [ObservableProperty]
         private (string, string) tag;
-        public (string, string) Tag
-        {
-            get => tag;
-            set => this.RaiseAndSetIfChanged(ref tag, value);
-        }
+
 
         //For Method 2:
+        [ObservableProperty]
         private bool panelTag2; //To notify panel of change (doesn't happen automatically for some reason)
-        public bool PanelTag2
-        {
-            get => panelTag2;
-            set => this.RaiseAndSetIfChanged(ref panelTag2, value);
-        }
 
+
+        [ObservableProperty]
         private string alignHorizontalCenterWith;
-        public string AlignHorizontalCenterWith
-        {
-            get => alignHorizontalCenterWith;
-            set => this.RaiseAndSetIfChanged(ref alignHorizontalCenterWith, value);
-        }
 
+        [ObservableProperty]
         private string alignVerticalCenterWith;
-        public string AlignVerticalCenterWith
-        {
-            get => alignVerticalCenterWith;
-            set => this.RaiseAndSetIfChanged(ref alignVerticalCenterWith, value);
-        }
-
+        
+        [ObservableProperty]
         private string rightOf;
-        public string RightOf
-        {
-            get => rightOf;
-            set => this.RaiseAndSetIfChanged(ref rightOf, value);
-        }
-
+       
+        [ObservableProperty]
         private string leftOf;
-        public string LeftOf
-        {
-            get => leftOf;
-            set => this.RaiseAndSetIfChanged(ref leftOf, value);
-        }
 
+        [ObservableProperty]
         private string above;
-        public string Above
-        {
-            get => above;
-            set => this.RaiseAndSetIfChanged(ref above, value);
-        }
 
+        [ObservableProperty]
         private string below;
-        public string Below
-        {
-            get => below;
-            set => this.RaiseAndSetIfChanged(ref below, value);
-        }
+
         ///////////
 
         //For Method 3:
+        [ObservableProperty]
         private bool panelTag3; //To notify panel of change (doesn't happen automatically for some reason)
-        public bool PanelTag3
-        {
-            get => panelTag3;
-            set => this.RaiseAndSetIfChanged(ref panelTag3, value);
-        }
 
+        [ObservableProperty]
         private string easyRightTarget;
-        public string EasyRightTarget
-        {
-            get => easyRightTarget;
-            set => this.RaiseAndSetIfChanged(ref easyRightTarget, value);
-        }
 
+        [ObservableProperty]
         private string easyLeftTarget;
-        public string EasyLeftTarget
-        {
-            get => easyLeftTarget;
-            set => this.RaiseAndSetIfChanged(ref easyLeftTarget, value);
-        }
-
+       
+        [ObservableProperty]
         private string easyAboveTarget;
-        public string EasyAboveTarget
-        {
-            get => easyAboveTarget;
-            set => this.RaiseAndSetIfChanged(ref easyAboveTarget, value);
-        }
 
+        [ObservableProperty]
         private string easyBelowTarget;
-        public string EasyBelowTarget
-        {
-            get => easyBelowTarget;
-            set => this.RaiseAndSetIfChanged(ref easyBelowTarget, value);
-        }
+
         ///////////
 
-        public ReactiveCommand<string, Unit> SetDirectionClick { get; }
 
-        public MainViewModel()
-        {            
-            SetDirectionClick = ReactiveCommand.Create<string>(direction =>
-            {
-                ResetDirection();
-                SetDirection(direction);
-            });
-        }
 
+        [RelayCommand]
         void SetDirection(string direction)
         {
+            ResetDirection();
+            
             //For Method 1:
             Tag = (direction, "R1");
 
