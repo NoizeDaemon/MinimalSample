@@ -108,7 +108,7 @@ namespace MinimalSample.ViewModels
             EasyLeftTarget = "";
             EasyRightTarget = "";
             EasyAboveTarget = "";
-            easyBelowTarget = "";
+            EasyBelowTarget = "";
         }
     }
 }
