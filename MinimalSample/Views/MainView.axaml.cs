@@ -29,11 +29,11 @@ namespace MinimalSample.Views
             //For Method 1:
             ((INotifyPropertyChanged)R2).PropertyChanged += RectanglePropertyChanged;
 
-            //For Method 2:
-            ((INotifyPropertyChanged)relativePanel2).PropertyChanged += PanelPropertyChanged;
+            ////For Method 2:
+            //((INotifyPropertyChanged)relativePanel2).PropertyChanged += PanelPropertyChanged;
 
-            //For Method 3:
-            ((INotifyPropertyChanged)relativePanel3).PropertyChanged += PanelPropertyChanged;
+            ////For Method 3:
+            //((INotifyPropertyChanged)relativePanel3).PropertyChanged += PanelPropertyChanged;
         }
 
         private void PanelPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -78,7 +78,7 @@ namespace MinimalSample.Views
                     else RelativePanel.SetBelow(R2, target);
                 }
    
-                relativePanel1.InvalidateMeasure();
+                //relativePanel1.InvalidateMeasure();
                 rectangleIsChanging = false;
             }
         }
