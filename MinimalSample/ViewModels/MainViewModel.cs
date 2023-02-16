@@ -17,11 +17,11 @@ namespace MinimalSample.ViewModels
         }
 
         //For Method 2:
-        private bool panelTag; //To notify panel of change (doesn't happen automatically for some reason)
-        public bool PanelTag
+        private bool panelTag2; //To notify panel of change (doesn't happen automatically for some reason)
+        public bool PanelTag2
         {
-            get => panelTag;
-            set => this.RaiseAndSetIfChanged(ref panelTag, value);
+            get => panelTag2;
+            set => this.RaiseAndSetIfChanged(ref panelTag2, value);
         }
 
         private string alignHorizontalCenterWith;
@@ -65,21 +65,44 @@ namespace MinimalSample.ViewModels
             get => below;
             set => this.RaiseAndSetIfChanged(ref below, value);
         }
+        ///////////
 
         //For Method 3:
-        //private string easyRightTarget;
-        //public string EasyRightTarget
-        //{
-        //    get => easyRightTarget;
-        //    set => this.RaiseAndSetIfChanged(ref easyRightTarget, value);
-        //}
+        private bool panelTag3; //To notify panel of change (doesn't happen automatically for some reason)
+        public bool PanelTag3
+        {
+            get => panelTag3;
+            set => this.RaiseAndSetIfChanged(ref panelTag3, value);
+        }
 
-        //private string easyLeftTarget;
-        //public string EasyLeftTarget
-        //{
-        //    get => easyLeftTarget;
-        //    set => this.RaiseAndSetIfChanged(ref easyLeftTarget, value);
-        //}
+        private string easyRightTarget;
+        public string EasyRightTarget
+        {
+            get => easyRightTarget;
+            set => this.RaiseAndSetIfChanged(ref easyRightTarget, value);
+        }
+
+        private string easyLeftTarget;
+        public string EasyLeftTarget
+        {
+            get => easyLeftTarget;
+            set => this.RaiseAndSetIfChanged(ref easyLeftTarget, value);
+        }
+
+        private string easyAboveTarget;
+        public string EasyAboveTarget
+        {
+            get => easyAboveTarget;
+            set => this.RaiseAndSetIfChanged(ref easyAboveTarget, value);
+        }
+
+        private string easyBelowTarget;
+        public string EasyBelowTarget
+        {
+            get => easyBelowTarget;
+            set => this.RaiseAndSetIfChanged(ref easyBelowTarget, value);
+        }
+        ///////////
 
         public ReactiveCommand<string, Unit> SetDirectionClick { get; }
 
@@ -110,32 +133,34 @@ namespace MinimalSample.ViewModels
                 if (direction is "Above") Above = "P1";
                 else Below = "P1";
             }
-
-            PanelTag = true;
+            PanelTag2 = true;
 
             //For Method 3:
-            //if (direction is "Left")
-            //{
-            //    EasyLeftTarget = "P1";
-            //    //EasyRightTarget = "";
-            //}
-            //else if (direction is "Right")
-            //{
-            //    EasyRightTarget = "P1";
-            //    //EasyLeftTarget = ""; 
-            //}
+            if (direction is "Left") EasyLeftTarget = "G1";
+            else if (direction is "Right") EasyRightTarget = "G1";
+            else if (direction is "Above") EasyAboveTarget = "G1";
+            else if (direction is "Below") EasyBelowTarget = "G1";
+            PanelTag3 = true;
         }
 
-        //For Method 2:
+        
         void ResetDirection()
         {
-            PanelTag = false;
+            //For Method 2:
+            PanelTag2 = false;
             AlignHorizontalCenterWith = "";
             AlignVerticalCenterWith = "";
             LeftOf = "";
             RightOf = "";
             Above = "";
             Below = "";
+
+            //For Method 3:
+            PanelTag3 = false;
+            EasyLeftTarget = "";
+            EasyRightTarget = "";
+            EasyAboveTarget = "";
+            easyBelowTarget = "";
         }
     }
 }

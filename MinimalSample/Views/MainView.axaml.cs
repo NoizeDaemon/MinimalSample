@@ -31,13 +31,18 @@ namespace MinimalSample.Views
 
             //For Method 2:
             ((INotifyPropertyChanged)relativePanel2).PropertyChanged += PanelPropertyChanged;
+
+            //For Method 3:
+            ((INotifyPropertyChanged)relativePanel3).PropertyChanged += PanelPropertyChanged;
         }
 
         private void PanelPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            relativePanel2.InvalidateVisual();
-            relativePanel2.InvalidateArrange();
+            //For Method 2:
             relativePanel2.InvalidateMeasure();
+
+            //For Method 3:
+            relativePanel3.InvalidateMeasure();
         }
 
         private void RectanglePropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -72,8 +77,7 @@ namespace MinimalSample.Views
                     if (direction is "Above") RelativePanel.SetAbove(R2, target);
                     else RelativePanel.SetBelow(R2, target);
                 }
-                relativePanel1.InvalidateVisual();
-                relativePanel1.InvalidateArrange();
+   
                 relativePanel1.InvalidateMeasure();
                 rectangleIsChanging = false;
             }
