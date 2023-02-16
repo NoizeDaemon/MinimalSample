@@ -20,11 +20,13 @@ namespace MinimalSample
         {
             Control parent = (Control)values[0];
 
-            if (values[1] == AvaloniaProperty.UnsetValue) return AttachedProperty<object>.UnsetValue;
+            if (values[1] == AvaloniaProperty.UnsetValue) return AvaloniaProperty.UnsetValue;
+
+            
 
             string target = (string)values[1];
 
-            if (target is null or "") return AttachedProperty<object>.UnsetValue;
+            if (target is null or "") return AvaloniaProperty.UnsetValue;
             else return parent.FindControl<Rectangle>(target);
         }
     }
