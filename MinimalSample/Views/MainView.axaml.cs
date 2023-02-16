@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Data;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
+using Avalonia.VisualTree;
 using DynamicData.Binding;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MinimalSample.ViewModels;
@@ -24,8 +26,18 @@ namespace MinimalSample.Views
         {
             InitializeComponent();
 
+            //For Method 1:
             ((INotifyPropertyChanged)R2).PropertyChanged += RectanglePropertyChanged;
 
+            //For Method 2:
+            ((INotifyPropertyChanged)relativePanel2).PropertyChanged += PanelPropertyChanged;
+        }
+
+        private void PanelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            relativePanel2.InvalidateVisual();
+            relativePanel2.InvalidateArrange();
+            relativePanel2.InvalidateMeasure();
         }
 
         private void RectanglePropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -60,10 +72,9 @@ namespace MinimalSample.Views
                     if (direction is "Above") RelativePanel.SetAbove(R2, target);
                     else RelativePanel.SetBelow(R2, target);
                 }
-                relativePanel.InvalidateVisual();
-                relativePanel.InvalidateArrange();
-                relativePanel.InvalidateMeasure();
-
+                relativePanel1.InvalidateVisual();
+                relativePanel1.InvalidateArrange();
+                relativePanel1.InvalidateMeasure();
                 rectangleIsChanging = false;
             }
         }

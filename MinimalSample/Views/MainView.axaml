@@ -22,67 +22,90 @@
 		<local:StringToRectangleConverter x:Key="stringToRectangleConverter"/>
 	</UserControl.Resources>
 	
-	
-	
-	<Grid RowDefinitions="Auto, *" Margin="20" >
-		<StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50" >
+	<Grid RowDefinitions="Auto, *" ColumnDefinitions="*,*" Margin="20">
+		<StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50" >
 			<Button Command="{Binding SetDirectionClick}" CommandParameter="Left">Set Left</Button>
 			<Button Command="{Binding SetDirectionClick}" CommandParameter="Right">Set Right</Button>
 			<Button Command="{Binding SetDirectionClick}" CommandParameter="Above">Set Above</Button>
 			<Button Command="{Binding SetDirectionClick}" CommandParameter="Below">Set Below</Button>
 		</StackPanel>
-		<Border Grid.Row="1" BorderBrush="Cyan" BorderThickness="2">
-			<RelativePanel x:Name="relativePanel">
-				<Rectangle x:Name="R1" Width="50" Height="50" Fill="White"
-						   RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-				<Rectangle x:Name="R2" Width="50" Height="50" Fill="Red" Tag="{Binding Tag}"/>
-						<!--<i:Interaction.Behaviors>
-							<ia:EventTriggerBehavior EventName="PropertyChanged"  SourceObject="{Binding #R2.Tag}">
-								<ia:InvokeCommandAction Command="{Binding SetDirectionClick}"/>
-							</ia:EventTriggerBehavior>
-						</i:Interaction.Behaviors>
-				</Rectangle>-->
-				<!--<Rectangle x:Name="R2" Width="50" Height="50" Fill="Red">
-					<RelativePanel.AlignVerticalCenterWith>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
-							<Binding Path="#relativePanel"/>
-							<Binding Path="VerticalCenterWith"/>
-						</MultiBinding>
-					</RelativePanel.AlignVerticalCenterWith>
-					<RelativePanel.AlignHorizontalCenterWith>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
-							<Binding Path="#relativePanel"/>
-							<Binding Path="HorizontalCenterWith"/>
-						</MultiBinding>
-					</RelativePanel.AlignHorizontalCenterWith>
-					<RelativePanel.RightOf>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
-							<Binding Path="#relativePanel"/>
-							<Binding Path="RightOf"/>
-						</MultiBinding>
-					</RelativePanel.RightOf>
-					<RelativePanel.LeftOf>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
-							<Binding Path="#relativePanel"/>
-							<Binding Path="LeftOf"/>
-						</MultiBinding>
-					</RelativePanel.LeftOf>
-					<RelativePanel.Above>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
-							<Binding Path="#relativePanel"/>
-							<Binding Path="Above"/>
-						</MultiBinding>
-					</RelativePanel.Above>
-					<RelativePanel.Below>
-						<MultiBinding Converter="{StaticResource stringToRectangleConverter}" Mode="OneWay">
-							<Binding Path="#relativePanel"/>
-							<Binding Path="Below"/>
-						</MultiBinding>
-					</RelativePanel.Below>
-				</Rectangle>-->
-			</RelativePanel>
-		</Border>
+		
+		<!--Method 1-->
+		<DockPanel Grid.Row="1" Grid.Column="0">
+			<TextBlock Text="Method 1: Code Behind" TextAlignment="Center" DockPanel.Dock="Top"/>
+			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom"> 
+				<RelativePanel x:Name="relativePanel1">
+					<Rectangle x:Name="R1" Width="50" Height="50" Fill="White"
+							   RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+					<Rectangle x:Name="R2" Width="50" Height="50" Fill="Red" Tag="{Binding Tag}"/>
+				</RelativePanel>
+			</Border>
+		</DockPanel>
+		
+		<!--Method 2-->
+		<DockPanel Grid.Row="1" Grid.Column="1">
+			<TextBlock Text="Method 2: Attached Property" TextAlignment="Center" DockPanel.Dock="Top"/>
+			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
+				<RelativePanel x:Name="relativePanel2" Tag="{Binding PanelTag}">
+					<Rectangle x:Name="P1" Width="50" Height="50" Fill="White"
+							   RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+					<Rectangle x:Name="P2" Width="50" Height="50" Fill="Red">
+						<RelativePanel.AlignHorizontalCenterWith>
+							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+								<Binding Path="$parent"/>
+								<Binding Path="AlignHorizontalCenterWith"/>
+							</MultiBinding>
+						</RelativePanel.AlignHorizontalCenterWith>
+						<RelativePanel.AlignVerticalCenterWith>
+							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+								<Binding Path="$parent"/>
+								<Binding Path="AlignVerticalCenterWith"/>
+							</MultiBinding>
+						</RelativePanel.AlignVerticalCenterWith>
+						<RelativePanel.RightOf>
+							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+								<Binding Path="$parent"/>
+								<Binding Path="RightOf"/>
+							</MultiBinding>
+						</RelativePanel.RightOf>
+						<RelativePanel.LeftOf>
+							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+								<Binding Path="$parent"/>
+								<Binding Path="LeftOf"/>
+							</MultiBinding>
+						</RelativePanel.LeftOf>
+						<RelativePanel.Above>
+							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+								<Binding Path="$parent"/>
+								<Binding Path="Above"/>
+							</MultiBinding>
+						</RelativePanel.Above>
+						<RelativePanel.Below>
+							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+								<Binding Path="$parent"/>
+								<Binding Path="Below"/>
+							</MultiBinding>
+						</RelativePanel.Below>
+					</Rectangle>
+				</RelativePanel>
+			</Border>
+		</DockPanel>
 	</Grid>
-
-
 </UserControl>
+
+
+<!--For Method 3:-->
+<!--<Rectangle x:Name="P2" Width="50" Height="50" Fill="Red">
+	<local:EasyAlignWith.EasyRightOf>
+		<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+			<Binding Path="$parent"/>
+			<Binding Path="EasyRightTarget"/>
+		</MultiBinding>
+	</local:EasyAlignWith.EasyRightOf>
+	<local:EasyAlignWith.EasyLeftOf>
+		<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
+			<Binding Path="$parent"/>
+			<Binding Path="EasyLeftTarget"/>
+		</MultiBinding>
+	</local:EasyAlignWith.EasyLeftOf>
+</Rectangle>-->

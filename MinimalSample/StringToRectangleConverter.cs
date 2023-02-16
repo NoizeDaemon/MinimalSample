@@ -19,15 +19,13 @@ namespace MinimalSample
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
             Control parent = (Control)values[0];
+
+            if (values[1] == AvaloniaProperty.UnsetValue) return AttachedProperty<object>.UnsetValue;
+
             string target = (string)values[1];
 
-            if (target == "") return AvaloniaProperty.UnsetValue;
+            if (target is null or "") return AttachedProperty<object>.UnsetValue;
             else return parent.FindControl<Rectangle>(target);
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
         }
     }
 }
