@@ -20,19 +20,19 @@ namespace MinimalSample
         /// EasyAlignDirection ///
         //////////////////////////
       
-        [ResolveByName]
-        public static string GetEasyAlignDirection(AvaloniaObject obj)
-        {
-            return (string)obj.GetValue(EasyAlignDirectionProperty);
-        }
+        //[ResolveByName]
+        //public static string GetEasyAlignDirection(AvaloniaObject obj)
+        //{
+        //    return (string)obj.GetValue(EasyAlignDirectionProperty);
+        //}
 
-        public static void SetEasyRightOf(AvaloniaObject obj, string value)
-        {
-            obj.SetValue(EasyAlignDirectionProperty, value);
-        }
+        //public static void SetEasyRightOf(AvaloniaObject obj, string value)
+        //{
+        //    obj.SetValue(EasyAlignDirectionProperty, value);
+        //}
 
-        public static readonly AttachedProperty<string> EasyAlignDirectionProperty =
-            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, string>("EasyAlignDirection");
+        //public static readonly AttachedProperty<string> EasyAlignDirectionProperty =
+        //    AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, string>("EasyAlignDirection");
 
 
         /////////////////////
@@ -66,19 +66,19 @@ namespace MinimalSample
         [ResolveByName]
         public static void SetEasyRightOf(AvaloniaObject obj, object value)
         {
-            if (value != AttachedProperty<object>.UnsetValue)
+            if (value != AvaloniaProperty.UnsetValue)
             {
-                if (RelativePanel.GetLeftOf(obj) == value) RelativePanel.SetLeftOf(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetAbove(obj) == value) RelativePanel.SetAbove(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetBelow(obj) == value) RelativePanel.SetBelow(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetAlignHorizontalCenterWith(obj) == value) RelativePanel.SetAlignHorizontalCenterWith(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyLeftOf(obj) == value) SetEasyLeftOf(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyAbove(obj) == value) SetEasyAbove(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyBelow(obj) == value) SetEasyBelow(obj, AttachedProperty<object>.UnsetValue);
+                if (obj.GetValue(LeftOfProperty) == value) obj.SetValue(LeftOfProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(AboveProperty) == value) obj.SetValue(AboveProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(BelowProperty) == value) obj.SetValue(BelowProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(AlignHorizontalCenterWithProperty) == value) obj.SetValue(AlignHorizontalCenterWithProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyLeftOfProperty) == value) SetEasyLeftOf(obj, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyAboveProperty) == value) SetEasyAbove(obj, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyBelowProperty) == value) SetEasyBelow(obj, AvaloniaProperty.UnsetValue);
             }
 
-            RelativePanel.SetAlignVerticalCenterWith(obj,value);
-            RelativePanel.SetRightOf(obj, value);
+            obj.SetValue(AlignVerticalCenterWithProperty, value);
+            obj.SetValue(RightOfProperty,value);
 
             obj.SetValue(EasyRightOfProperty, value);
         }
@@ -117,21 +117,19 @@ namespace MinimalSample
         [ResolveByName]
         public static void SetEasyLeftOf(AvaloniaObject obj, object value)
         {
-            if (value != AttachedProperty<object>.UnsetValue)
+            if (value != AvaloniaProperty.UnsetValue)
             {
-                if (RelativePanel.GetRightOf(obj) == value) RelativePanel.SetRightOf(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetAbove(obj) == value) RelativePanel.SetAbove(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetBelow(obj) == value) RelativePanel.SetBelow(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetAlignHorizontalCenterWith(obj) == value) RelativePanel.SetAlignHorizontalCenterWith(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyRightOf(obj) == value) SetEasyRightOf(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyAbove(obj) == value) SetEasyAbove(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyBelow(obj) == value) SetEasyBelow(obj, AttachedProperty<object>.UnsetValue);
+                if (obj.GetValue(RightOfProperty) == value) obj.SetValue(RightOfProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(AboveProperty) == value) obj.SetValue(AboveProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(BelowProperty) == value) obj.SetValue(BelowProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(AlignHorizontalCenterWithProperty) == value) obj.SetValue(AlignHorizontalCenterWithProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyRightOfProperty) == value) SetEasyRightOf(obj, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyAboveProperty) == value) SetEasyAbove(obj, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyBelowProperty) == value) SetEasyBelow(obj, AvaloniaProperty.UnsetValue);
             }
 
-
-
-            RelativePanel.SetAlignVerticalCenterWith(obj, value);
-            RelativePanel.SetLeftOf(obj, value);
+            obj.SetValue(AlignVerticalCenterWithProperty, value);
+            obj.SetValue(LeftOfProperty, value);
 
             obj.SetValue(EasyLeftOfProperty, value);
         }
@@ -170,20 +168,20 @@ namespace MinimalSample
         [ResolveByName]
         public static void SetEasyAbove(AvaloniaObject obj, object value)
         {
-            if (value != AttachedProperty<object>.UnsetValue)
+            if (value != AvaloniaProperty.UnsetValue)
             {
-                if (RelativePanel.GetRightOf(obj) == value) RelativePanel.SetRightOf(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetLeftOf(obj) == value) RelativePanel.SetLeftOf(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetBelow(obj) == value) RelativePanel.SetBelow(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetAlignVerticalCenterWith(obj) == value) RelativePanel.SetAlignVerticalCenterWith(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyRightOf(obj) == value) SetEasyRightOf(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyLeftOf(obj) == value) SetEasyLeftOf(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyBelow(obj) == value) SetEasyBelow(obj, AttachedProperty<object>.UnsetValue);
+                if (obj.GetValue(RightOfProperty) == value) obj.SetValue(RightOfProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(LeftOfProperty) == value) obj.SetValue(LeftOfProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(BelowProperty) == value) obj.SetValue(BelowProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(AlignVerticalCenterWithProperty) == value) obj.SetValue(AlignVerticalCenterWithProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyRightOfProperty) == value) SetEasyRightOf(obj, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyLeftOfProperty) == value) SetEasyLeftOf(obj, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyBelowProperty) == value) SetEasyBelow(obj, AvaloniaProperty.UnsetValue);
             }
 
 
-            RelativePanel.SetAlignHorizontalCenterWith(obj, value);
-            RelativePanel.SetAbove(obj, value);
+            obj.SetValue(AlignHorizontalCenterWithProperty, value);
+            obj.SetValue(AboveProperty, value);
 
             obj.SetValue(EasyAboveProperty, value);
         }
@@ -222,21 +220,19 @@ namespace MinimalSample
         [ResolveByName]
         public static void SetEasyBelow(AvaloniaObject obj, object value)
         {
-            if (value != AttachedProperty<object>.UnsetValue)
+            if (value != AvaloniaProperty.UnsetValue)
             {
-                if (RelativePanel.GetRightOf(obj) == value) RelativePanel.SetRightOf(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetLeftOf(obj) == value) RelativePanel.SetLeftOf(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetBelow(obj) == value) RelativePanel.SetBelow(obj, AttachedProperty<object>.UnsetValue);
-                if (RelativePanel.GetAlignVerticalCenterWith(obj) == value) RelativePanel.SetAlignVerticalCenterWith(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyRightOf(obj) == value) SetEasyRightOf(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyLeftOf(obj) == value) SetEasyLeftOf(obj, AttachedProperty<object>.UnsetValue);
-                if (GetEasyAbove(obj) == value) SetEasyAbove(obj, AttachedProperty<object>.UnsetValue);
+                if (obj.GetValue(RightOfProperty) == value) obj.SetValue(RightOfProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(LeftOfProperty) == value) obj.SetValue(LeftOfProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(BelowProperty) == value) obj.SetValue(BelowProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(AlignVerticalCenterWithProperty) == value) obj.SetValue(AlignVerticalCenterWithProperty, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyRightOfProperty) == value) SetEasyRightOf(obj, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyLeftOfProperty) == value) SetEasyLeftOf(obj, AvaloniaProperty.UnsetValue);
+                if (obj.GetValue(EasyAboveProperty) == value) SetEasyAbove(obj, AvaloniaProperty.UnsetValue);
             }
 
-
-
-            RelativePanel.SetAlignHorizontalCenterWith(obj, value);
-            RelativePanel.SetBelow(obj, value);
+            obj.SetValue(AlignHorizontalCenterWithProperty, value);
+            obj.SetValue(BelowProperty, value);
 
             obj.SetValue(EasyBelowProperty, value);
         }

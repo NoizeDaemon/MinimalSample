@@ -96,8 +96,9 @@
 				<RelativePanel x:Name="relativePanel3" Tag="{Binding PanelTag3}">
 					<Rectangle x:Name="G1" Width="50" Height="50" Fill="White"
 							   RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+					<Rectangle x:Name="G3" Width="50" Height="50" Fill="Purple" local:EasyAlignWith.EasyRightOf="G1"/>
 					<Rectangle x:Name="G2" Width="50" Height="50" Fill="Red">
-						<local:EasyAlignWith.EasyRightOf>
+						<local:EasyAlignWith.EasyRightOf>		
 							<MultiBinding Converter="{StaticResource stringToRectangleConverter}">
 								<Binding Path="$parent"/>
 								<Binding Path="EasyRightTarget"/>
