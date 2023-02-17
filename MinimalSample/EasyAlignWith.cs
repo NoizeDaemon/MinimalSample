@@ -92,6 +92,15 @@ namespace MinimalSample
         public static readonly AttachedProperty<object> TargetProperty =
             AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("Target");
 
+        public static Func<AvaloniaObject, object, object> CoerceTarget = delegate(AvaloniaObject obj, object valueIn)
+        {
+            if(valueIn is string)
+            {
+                var target = ((Control)obj).FindControl<Control>((string)valueIn);
+                return target ?? AvaloniaProperty.UnsetValue;
+            }
+            else return AvaloniaProperty.UnsetValue;
+        };
 
         /////////////
         /// RIGHT ///
