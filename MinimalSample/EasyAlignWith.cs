@@ -14,12 +14,18 @@ namespace MinimalSample
         static EasyAlignWith()
         {
             AffectsParentArrange<RelativePanel>(EasyRightOfProperty, EasyLeftOfProperty, EasyAboveProperty, EasyBelowProperty);
+            AffectsParentMeasure<RelativePanel>(EasyRightOfProperty, EasyLeftOfProperty, EasyAboveProperty, EasyBelowProperty);
+
+            EasyRightOfProperty.Changed.AddClassHandler<AvaloniaObject>(OnEasyRightOfPropertyChanged);
+            EasyLeftOfProperty.Changed.AddClassHandler<AvaloniaObject>(OnEasyLeftOfPropertyChanged);
+            EasyAboveProperty.Changed.AddClassHandler<AvaloniaObject>(OnEasyAbovePropertyChanged);
+            EasyBelowProperty.Changed.AddClassHandler<AvaloniaObject>(OnEasyBelowPropertyChanged);
         }
 
         //////////////////////////
         /// EasyAlignDirection ///
         //////////////////////////
-      
+
         //[ResolveByName]
         //public static string GetEasyAlignDirection(AvaloniaObject obj)
         //{
@@ -44,28 +50,25 @@ namespace MinimalSample
         /// RIGHT ///
         /////////////
 
-        /// <summary>
-        /// Gets the value of the RelativePanel.EasyRightOf XAML attached property for the target element.
-        /// </summary>
-        /// <param name="obj">The object from which the property value is read.</param>
-        /// <returns>
-        /// The RelativePanel.EasyRightOf XAML attached property value of the specified
-        /// object.
-        /// </returns>        
         [ResolveByName]
         public static object GetEasyRightOf(AvaloniaObject obj)
         {
             return (object)obj.GetValue(EasyRightOfProperty);
         }
 
-        /// <summary>
-        /// Sets the value of the RelativePanel.EasyRightOf XAML attached property for a target element.
-        /// </summary>
-        /// <param name="obj">The object to which the property value is written.</param>
-        /// <param name="value">The value to set. (The element to easy-align this element with.)</param>
         [ResolveByName]
         public static void SetEasyRightOf(AvaloniaObject obj, object value)
         {
+            obj.SetValue(EasyRightOfProperty, value);
+        }
+
+        public static readonly AttachedProperty<object> EasyRightOfProperty =
+            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("EasyRightOf");
+
+        private static void OnEasyRightOfPropertyChanged(AvaloniaObject obj, AvaloniaPropertyChangedEventArgs e)
+        {
+            object value = e.NewValue;
+
             if (value != AvaloniaProperty.UnsetValue)
             {
                 if (obj.GetValue(LeftOfProperty) == value) obj.SetValue(LeftOfProperty, AvaloniaProperty.UnsetValue);
@@ -78,96 +81,75 @@ namespace MinimalSample
             }
 
             obj.SetValue(AlignVerticalCenterWithProperty, value);
-            obj.SetValue(RightOfProperty,value);
-
-            obj.SetValue(EasyRightOfProperty, value);
+            obj.SetValue(RightOfProperty, value);
         }
-
-        /// <summary>
-        ///  Identifies the <see cref="RelativePanel.EasyAlignWithProperty"/> XAML attached property.
-        /// </summary>
-
-        public static readonly AttachedProperty<object> EasyRightOfProperty =
-            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("EasyRightOf");
 
 
         ////////////
         /// LEFT ///
         ////////////
 
-        /// <summary>
-        /// Gets the value of the RelativePanel.EasyLeftOf XAML attached property for the target element.
-        /// </summary>
-        /// <param name="obj">The object from which the property value is read.</param>
-        /// <returns>
-        /// The RelativePanel.EasyLeftOf XAML attached property value of the specified
-        /// object.
-        /// </returns>        
         [ResolveByName]
         public static object GetEasyLeftOf(AvaloniaObject obj)
         {
             return (object)obj.GetValue(EasyLeftOfProperty);
         }
 
-        /// <summary>
-        /// Sets the value of the RelativePanel.EasyLeftOf XAML attached property for a target element.
-        /// </summary>
-        /// <param name="obj">The object to which the property value is written.</param>
-        /// <param name="value">The value to set. (The element to easy-align this element with.)</param>
         [ResolveByName]
         public static void SetEasyLeftOf(AvaloniaObject obj, object value)
         {
-            if (value != AvaloniaProperty.UnsetValue)
-            {
-                if (obj.GetValue(RightOfProperty) == value) obj.SetValue(RightOfProperty, AvaloniaProperty.UnsetValue);
-                if (obj.GetValue(AboveProperty) == value) obj.SetValue(AboveProperty, AvaloniaProperty.UnsetValue);
-                if (obj.GetValue(BelowProperty) == value) obj.SetValue(BelowProperty, AvaloniaProperty.UnsetValue);
-                if (obj.GetValue(AlignHorizontalCenterWithProperty) == value) obj.SetValue(AlignHorizontalCenterWithProperty, AvaloniaProperty.UnsetValue);
-                if (obj.GetValue(EasyRightOfProperty) == value) SetEasyRightOf(obj, AvaloniaProperty.UnsetValue);
-                if (obj.GetValue(EasyAboveProperty) == value) SetEasyAbove(obj, AvaloniaProperty.UnsetValue);
-                if (obj.GetValue(EasyBelowProperty) == value) SetEasyBelow(obj, AvaloniaProperty.UnsetValue);
-            }
-
-            obj.SetValue(AlignVerticalCenterWithProperty, value);
-            obj.SetValue(LeftOfProperty, value);
-
             obj.SetValue(EasyLeftOfProperty, value);
         }
 
-        /// <summary>
-        ///  Identifies the <see cref="RelativePanel.EasyAlignWithProperty"/> XAML attached property.
-        /// </summary>
-
         public static readonly AttachedProperty<object> EasyLeftOfProperty =
             AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("EasyLeftOf");
+
+        private static void OnEasyLeftOfPropertyChanged(AvaloniaObject obj, AvaloniaPropertyChangedEventArgs e)
+        {
+            object value = e.NewValue;
+
+            if (value != AvaloniaProperty.UnsetValue)
+            {
+                if (value != AvaloniaProperty.UnsetValue)
+                {
+                    if (obj.GetValue(RightOfProperty) == value) obj.SetValue(RightOfProperty, AvaloniaProperty.UnsetValue);
+                    if (obj.GetValue(AboveProperty) == value) obj.SetValue(AboveProperty, AvaloniaProperty.UnsetValue);
+                    if (obj.GetValue(BelowProperty) == value) obj.SetValue(BelowProperty, AvaloniaProperty.UnsetValue);
+                    if (obj.GetValue(AlignHorizontalCenterWithProperty) == value) obj.SetValue(AlignHorizontalCenterWithProperty, AvaloniaProperty.UnsetValue);
+                    if (obj.GetValue(EasyRightOfProperty) == value) SetEasyRightOf(obj, AvaloniaProperty.UnsetValue);
+                    if (obj.GetValue(EasyAboveProperty) == value) SetEasyAbove(obj, AvaloniaProperty.UnsetValue);
+                    if (obj.GetValue(EasyBelowProperty) == value) SetEasyBelow(obj, AvaloniaProperty.UnsetValue);
+                }
+
+                obj.SetValue(AlignVerticalCenterWithProperty, value);
+                obj.SetValue(LeftOfProperty, value);
+            }
+        }
 
 
         /////////////
         /// Above ///
         /////////////
 
-        /// <summary>
-        /// Gets the value of the RelativePanel.EasyAbove XAML attached property for the target element.
-        /// </summary>
-        /// <param name="obj">The object from which the property value is read.</param>
-        /// <returns>
-        /// The RelativePanel.EasyAbove XAML attached property value of the specified
-        /// object.
-        /// </returns>        
         [ResolveByName]
         public static object GetEasyAbove(AvaloniaObject obj)
         {
             return (object)obj.GetValue(EasyAboveProperty);
         }
 
-        /// <summary>
-        /// Sets the value of the RelativePanel.EasyAbove XAML attached property for a target element.
-        /// </summary>
-        /// <param name="obj">The object to which the property value is written.</param>
-        /// <param name="value">The value to set. (The element to easy-align this element with.)</param>
         [ResolveByName]
         public static void SetEasyAbove(AvaloniaObject obj, object value)
         {
+            obj.SetValue(EasyAboveProperty, value);
+        }
+
+        public static readonly AttachedProperty<object> EasyAboveProperty =
+            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("EasyAbove");
+
+        private static void OnEasyAbovePropertyChanged(AvaloniaObject obj, AvaloniaPropertyChangedEventArgs e)
+        {
+            object value = e.NewValue;
+
             if (value != AvaloniaProperty.UnsetValue)
             {
                 if (obj.GetValue(RightOfProperty) == value) obj.SetValue(RightOfProperty, AvaloniaProperty.UnsetValue);
@@ -179,47 +161,34 @@ namespace MinimalSample
                 if (obj.GetValue(EasyBelowProperty) == value) SetEasyBelow(obj, AvaloniaProperty.UnsetValue);
             }
 
-
             obj.SetValue(AlignHorizontalCenterWithProperty, value);
             obj.SetValue(AboveProperty, value);
-
-            obj.SetValue(EasyAboveProperty, value);
         }
-
-        /// <summary>
-        ///  Identifies the <see cref="RelativePanel.EasyAlignWithProperty"/> XAML attached property.
-        /// </summary>
-
-        public static readonly AttachedProperty<object> EasyAboveProperty =
-            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("EasyAbove");
 
 
         /////////////
         /// Below ///
         /////////////
 
-        /// <summary>
-        /// Gets the value of the RelativePanel.EasyBelow XAML attached property for the target element.
-        /// </summary>
-        /// <param name="obj">The object from which the property value is read.</param>
-        /// <returns>
-        /// The RelativePanel.EasyBelow XAML attached property value of the specified
-        /// object.
-        /// </returns>        
         [ResolveByName]
         public static object GetEasyBelow(AvaloniaObject obj)
         {
             return (object)obj.GetValue(EasyBelowProperty);
         }
 
-        /// <summary>
-        /// Sets the value of the RelativePanel.EasyBelow XAML attached property for a target element.
-        /// </summary>
-        /// <param name="obj">The object to which the property value is written.</param>
-        /// <param name="value">The value to set. (The element to easy-align this element with.)</param>
         [ResolveByName]
         public static void SetEasyBelow(AvaloniaObject obj, object value)
         {
+            obj.SetValue(EasyBelowProperty, value);
+        }
+
+        public static readonly AttachedProperty<object> EasyBelowProperty =
+            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("EasyBelow");
+
+        private static void OnEasyBelowPropertyChanged(AvaloniaObject obj, AvaloniaPropertyChangedEventArgs e)
+        {
+            object value = e.NewValue;
+
             if (value != AvaloniaProperty.UnsetValue)
             {
                 if (obj.GetValue(RightOfProperty) == value) obj.SetValue(RightOfProperty, AvaloniaProperty.UnsetValue);
@@ -233,16 +202,6 @@ namespace MinimalSample
 
             obj.SetValue(AlignHorizontalCenterWithProperty, value);
             obj.SetValue(BelowProperty, value);
-
-            obj.SetValue(EasyBelowProperty, value);
         }
-
-        /// <summary>
-        ///  Identifies the <see cref="RelativePanel.EasyAlignWithProperty"/> XAML attached property.
-        /// </summary>
-
-        public static readonly AttachedProperty<object> EasyBelowProperty =
-            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("EasyBelow");
-
     }
 }
