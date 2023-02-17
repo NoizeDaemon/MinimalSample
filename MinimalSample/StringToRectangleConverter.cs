@@ -18,9 +18,11 @@ namespace MinimalSample
 
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values[0] == AvaloniaProperty.UnsetValue || values[1] is null or "") return AvaloniaProperty.UnsetValue;
+            if (values[0] == AvaloniaProperty.UnsetValue || values[1] == AvaloniaProperty.UnsetValue || (string?)values[1] is null or "") return AvaloniaProperty.UnsetValue;
             else
             {
+                
+
                 Control parent = (Control)values[0];
                 string target = (string)values[1];
 
