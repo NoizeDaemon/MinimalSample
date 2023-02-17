@@ -56,6 +56,12 @@ namespace MinimalSample.ViewModels
         [ObservableProperty]
         private string easyBelowTarget;
 
+        [ObservableProperty]
+        private string direction;
+
+        [ObservableProperty]
+        private string target;
+
         ///////////
 
 
@@ -69,10 +75,10 @@ namespace MinimalSample.ViewModels
             Tag = (direction, "R1");
 
             //For Method 2:
-            if (direction is "Left" or "Right")
+            if (direction is "LeftOf" or "RightOf")
             {
                 AlignVerticalCenterWith = "P1";
-                if (direction is "Left") LeftOf = "P1";
+                if (direction is "LeftOf") LeftOf = "P1";
                 else RightOf = "P1";
             }
             else
@@ -84,11 +90,13 @@ namespace MinimalSample.ViewModels
             PanelTag2 = true;
 
             //For Method 3:
-            if (direction is "Left") EasyLeftTarget = "G1";
-            else if (direction is "Right") EasyRightTarget = "G1";
-            else if (direction is "Above") EasyAboveTarget = "G1";
-            else if (direction is "Below") EasyBelowTarget = "G1";
-            PanelTag3 = true;
+            Direction = direction;
+            Target = "G1";
+            //if (direction is "Left") EasyLeftTarget = "G1";
+            //else if (direction is "Right") EasyRightTarget = "G1";
+            //else if (direction is "Above") EasyAboveTarget = "G1";
+            //else if (direction is "Below") EasyBelowTarget = "G1";
+            //PanelTag3 = true;
         }
 
         

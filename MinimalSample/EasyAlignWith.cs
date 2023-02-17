@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,34 +17,80 @@ namespace MinimalSample
             AffectsParentArrange<RelativePanel>(EasyRightOfProperty, EasyLeftOfProperty, EasyAboveProperty, EasyBelowProperty);
             AffectsParentMeasure<RelativePanel>(EasyRightOfProperty, EasyLeftOfProperty, EasyAboveProperty, EasyBelowProperty);
 
+            DirectionProperty.Changed.AddClassHandler<AvaloniaObject>(OnDirectionTargetPropertyChanged);
+            TargetProperty.Changed.AddClassHandler<AvaloniaObject>(OnDirectionTargetPropertyChanged);
             EasyRightOfProperty.Changed.AddClassHandler<AvaloniaObject>(OnEasyRightOfPropertyChanged);
             EasyLeftOfProperty.Changed.AddClassHandler<AvaloniaObject>(OnEasyLeftOfPropertyChanged);
             EasyAboveProperty.Changed.AddClassHandler<AvaloniaObject>(OnEasyAbovePropertyChanged);
             EasyBelowProperty.Changed.AddClassHandler<AvaloniaObject>(OnEasyBelowPropertyChanged);
         }
 
-        //////////////////////////
-        /// EasyAlignDirection ///
-        //////////////////////////
+        private static void OnDirectionTargetPropertyChanged(AvaloniaObject obj, AvaloniaPropertyChangedEventArgs e)
+        {
+            if (obj.GetValue(DirectionProperty) != AvaloniaProperty.UnsetValue && obj.GetValue(TargetProperty) != AvaloniaProperty.UnsetValue && obj.GetValue(TargetProperty) != null)
+            {
+                string direction = obj.GetValue(DirectionProperty);
+                var target = (AvaloniaObject)obj.GetValue(TargetProperty);
 
-        //[ResolveByName]
-        //public static string GetEasyAlignDirection(AvaloniaObject obj)
-        //{
-        //    return (string)obj.GetValue(EasyAlignDirectionProperty);
-        //}
+                if (direction is "RightOf")
+                {
+                    obj.SetValue(EasyRightOfProperty, target);
+                }
+                else if (direction is "LeftOf"){
+                    obj.SetValue(EasyLeftOfProperty, target);
+                }
+                else if (direction is "Above")
+                {
+                    obj.SetValue(EasyAboveProperty, target);
+                }
+                else if (direction is "Below")
+                {
+                    obj.SetValue(EasyBelowProperty, target);
+                }
+                else
+                {
+                    Debug.WriteLine(e.Sender + "\n" + "Direction not valid");
+                }
 
-        //public static void SetEasyRightOf(AvaloniaObject obj, string value)
-        //{
-        //    obj.SetValue(EasyAlignDirectionProperty, value);
-        //}
+            }
+        }
 
-        //public static readonly AttachedProperty<string> EasyAlignDirectionProperty =
-        //    AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, string>("EasyAlignDirection");
+        /////////////////
+        /// Direction ///
+        /////////////////
+
+        public static string GetDirection(AvaloniaObject obj)
+        {
+            return (string)obj.GetValue(DirectionProperty);
+        }
+
+        public static void SetDirection(AvaloniaObject obj, string value)
+        {
+            obj.SetValue(DirectionProperty, value);
+        }
+
+        public static readonly AttachedProperty<string> DirectionProperty =
+            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, string>("Direction");
 
 
-        /////////////////////
-        /// EasyAlignWith ///
-        /////////////////////
+        //////////////
+        /// Target ///
+        //////////////
+
+        [ResolveByName]
+        public static object GetTarget(AvaloniaObject obj)
+        {
+            return obj.GetValue(TargetProperty);
+        }
+
+        [ResolveByName]
+        public static void SetTarget(AvaloniaObject obj, object value)
+        {
+            obj.SetValue(TargetProperty, value);
+        }
+
+        public static readonly AttachedProperty<object> TargetProperty =
+            AvaloniaProperty.RegisterAttached<RelativePanel, Layoutable, object>("Target");
 
 
         /////////////

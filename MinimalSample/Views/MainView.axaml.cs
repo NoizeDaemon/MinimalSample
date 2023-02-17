@@ -63,11 +63,11 @@ namespace MinimalSample.Views
                 RelativePanel.SetBelow(R2, AttachedProperty<object>.UnsetValue);
                 RelativePanel.SetAbove(R2, AttachedProperty<object>.UnsetValue);
 
-                if (direction is "Left" or "Right")
+                if (direction is "LeftOf" or "RightOf")
                 {
                     RelativePanel.SetAlignVerticalCenterWith(R2, target);
 
-                    if (direction is "Left") RelativePanel.SetLeftOf(R2, target);
+                    if (direction is "LeftOf") RelativePanel.SetLeftOf(R2, target);
                     else RelativePanel.SetRightOf(R2, target);
                 }
                 else
