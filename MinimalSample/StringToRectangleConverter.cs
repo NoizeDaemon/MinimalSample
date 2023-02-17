@@ -18,16 +18,16 @@ namespace MinimalSample
 
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            Control parent = (Control)values[0];
+            if (values[0] == AvaloniaProperty.UnsetValue || values[1] is null or "") return AvaloniaProperty.UnsetValue;
+            else
+            {
+                Control parent = (Control)values[0];
+                string target = (string)values[1];
 
-            if (values[1] == AvaloniaProperty.UnsetValue) return AvaloniaProperty.UnsetValue;
+                Rectangle rectangle = parent.FindControl<Rectangle>(target);
 
-            
-
-            string target = (string)values[1];
-
-            if (target is null or "") return AvaloniaProperty.UnsetValue;
-            else return parent.FindControl<Rectangle>(target);
+                return rectangle ?? AvaloniaProperty.UnsetValue;
+            }
         }
     }
 }
