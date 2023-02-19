@@ -20,7 +20,9 @@
 		<local:StringToControlConverter x:Key="stringToControlConverter"/>
 	</UserControl.Resources>
 	
-	<Grid RowDefinitions="Auto, *" ColumnDefinitions="*,*,*" Margin="20">
+	<Grid RowDefinitions="30, *, 30, *" ColumnDefinitions="*,*,*" Margin="20">
+		
+		<!--Directly in Panel-->
 		<StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50" >
 			<Button Command="{Binding SetDirectionCommand}" CommandParameter="LeftOf">Set Left</Button>
 			<Button Command="{Binding SetDirectionCommand}" CommandParameter="RightOf">Set Right</Button>
@@ -28,9 +30,9 @@
 			<Button Command="{Binding SetDirectionCommand}" CommandParameter="Below">Set Below</Button>
 		</StackPanel>
 		
-		<!--Method 1-->
+		<!--Method 1a-->
 		<DockPanel Grid.Row="1" Grid.Column="0">
-			<TextBlock Text="Method 1: Code Behind" TextAlignment="Center" DockPanel.Dock="Top"/>
+			<TextBlock Text="Method 1a: Code Behind" TextAlignment="Center" DockPanel.Dock="Top"/>
 			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom"> 
 				<RelativePanel x:Name="relativePanel1">
 					<Rectangle x:Name="R1" Width="50" Height="50" Fill="White"
@@ -40,11 +42,11 @@
 			</Border>
 		</DockPanel>
 		
-		<!--Method 2-->
-		<DockPanel Grid.Row="1" Grid.Column="1">
-			<TextBlock Text="Method 2: Attached Property (Built-in)" TextAlignment="Center" DockPanel.Dock="Top"/>
+		<!--Method 2a-->
+		<!--<DockPanel Grid.Row="1" Grid.Column="1">
+			<TextBlock Text="Method 2a: Attached Property (Built-in)" TextAlignment="Center" DockPanel.Dock="Top"/>
 			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
-				<RelativePanel x:Name="relativePanel2" Tag="{Binding PanelTag2}">
+				<RelativePanel x:Name="relativePanel2">
 					<Rectangle x:Name="P1" Width="50" Height="50" Fill="White"
 							   RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
 					<Rectangle x:Name="P2" Width="50" Height="50" Fill="Red">
@@ -89,11 +91,11 @@
 			</Border>
 		</DockPanel>
 		
-		<!--Method 3-->
+		--><!--Method 3a--><!--
 		<DockPanel Grid.Row="1" Grid.Column="2">
-			<TextBlock Text="Method 3: Attached Property (Custom)" TextAlignment="Center" DockPanel.Dock="Top"/>
+			<TextBlock Text="Method 3a: Attached Property (Custom)" TextAlignment="Center" DockPanel.Dock="Top"/>
 			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
-				<RelativePanel x:Name="relativePanel3" Tag="{Binding PanelTag3}">
+				<RelativePanel x:Name="relativePanel3">
 					<Rectangle x:Name="G1" Width="50" Height="50" Fill="White"
 							   RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
 					<Rectangle x:Name="G2" Width="50" Height="50" Fill="Red" local:EasyAlignWith.Direction="{Binding Direction}">
@@ -106,10 +108,57 @@
 					</Rectangle>
 				</RelativePanel>
 			</Border>
+		</DockPanel>-->
+		
+		
+		<!--In ItemsControl with RelativePanel as ItemsPanelTemplate-->
+		<StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50" >
+			<Button Command="{Binding AddDirectionCommand}" CommandParameter="LeftOf" IsEnabled="{Binding AddLeftEnabled}">Add Left</Button>
+			<Button Command="{Binding AddDirectionCommand}" CommandParameter="RightOf" IsEnabled="{Binding AddRightEnabled}">Add Right</Button>
+			<Button Command="{Binding AddDirectionCommand}" CommandParameter="Above" IsEnabled="{Binding AddAboveEnabled}">Add Above</Button>
+			<Button Command="{Binding AddDirectionCommand}" CommandParameter="Below" IsEnabled="{Binding AddBelowEnabled}">Add Below</Button>
+			<Button Click="OnResetButtonClick">Invalidate Measure/Arrange</Button>
+		</StackPanel>
+
+		<!--Method 1b-->
+		<DockPanel Grid.Row="3" Grid.Column="0">
+			<TextBlock Text="Method 1b" TextAlignment="Center" DockPanel.Dock="Top"/>
+			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
+				<ItemsControl x:Name="itemsControl1b" Items="{Binding NumberItems}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<RelativePanel Name="relativePanel1b"/>
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Grid x:Name="{Binding Name}"
+								  local:EasyAlignWith.Direction="{Binding Direction}">
+								<local:EasyAlignWith.Target>
+									<MultiBinding Converter="{StaticResource stringToControlConverter}">
+										<Binding Path="$parent"/>
+										<Binding Path="Neighbor"/>
+									</MultiBinding>
+								</local:EasyAlignWith.Target>
+								<Rectangle Width="25" Height="25" Fill="White"/>
+								<TextBlock Text="{Binding Number}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+							</Grid>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<!--<ItemsControl.Styles>
+						<Style Selector="ContentPresenter">
+							<Setter Property="RelativePanel.AlignVerticalCenterWithPanel" Value="True"></Setter>
+							<Setter Property="RelativePanel.AlignHorizontalCenterWithPanel" Value="True"></Setter>
+							<Setter Property=""></Setter>
+						</Style>
+						
+					</ItemsControl.Styles>-->
+				</ItemsControl>
+			</Border>
 		</DockPanel>
 	</Grid>
 </UserControl>
 
 
-<!--For Method 3:-->
+
 

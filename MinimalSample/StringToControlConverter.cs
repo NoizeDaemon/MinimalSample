@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Data.Converters;
 using Avalonia.Data;
+using Avalonia.VisualTree;
 
 namespace MinimalSample
 {
@@ -17,18 +18,32 @@ namespace MinimalSample
 
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values[0] == AvaloniaProperty.UnsetValue || values[1] == AvaloniaProperty.UnsetValue || values[1] is null)
+            if (values[0] == AvaloniaProperty.UnsetValue ||
+                values[1] == AvaloniaProperty.UnsetValue ||
+                values[1] is null)
+            {
                 return BindingOperations.DoNothing;
+            }
             else if ((string)values[1] == "")
+            {
                 return AvaloniaProperty.UnsetValue;
+            }
             else
             {
                 Control parent = (Control)values[0];
                 string target = (string)values[1];
 
-                Control control = parent.FindControl<Control>(target);
-
-                return control ?? AvaloniaProperty.UnsetValue;
+                if (parent is ItemsControl)
+                {
+                    var children = ((ItemsControl)parent).GetVisualDescendants();
+                    Control control = (Control)children.Where(x => x.Name == target).First();
+                    return control ?? BindingOperations.DoNothing;
+                }
+                else
+                {
+                    Control control = parent.FindControl<Control>(target);
+                    return control ?? BindingOperations.DoNothing;
+                }
             }
         }
     }

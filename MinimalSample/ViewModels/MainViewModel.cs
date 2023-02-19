@@ -5,21 +5,24 @@ using System.Diagnostics;
 using System.Reactive;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MinimalSample.Models;
+using DynamicData;
+using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 
 namespace MinimalSample.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
-        //For Method 1:
+        /////////////////////////////////////////
+        /////////// Directly in Panel ///////////
+        /////////////////////////////////////////
+
+        //For Method 1a:
         [ObservableProperty]
         private (string, string) tag;
 
-
-        //For Method 2:
-        [ObservableProperty]
-        private bool panelTag2; //To notify panel of change (doesn't happen automatically for some reason)
-
-
+        //For Method 2a:
         [ObservableProperty]
         private string alignHorizontalCenterWith;
 
@@ -40,83 +43,100 @@ namespace MinimalSample.ViewModels
 
         ///////////
 
-        //For Method 3:
+        //For Method 3a:
         [ObservableProperty]
-        private bool panelTag3; //To notify panel of change (doesn't happen automatically for some reason)
-
-        [ObservableProperty]
-        private string easyRightTarget;
-
-        [ObservableProperty]
-        private string easyLeftTarget;
-       
-        [ObservableProperty]
-        private string easyAboveTarget;
-
-        [ObservableProperty]
-        private string easyBelowTarget;
-
-        [ObservableProperty]
-        private string direction;
+        private Direction direction;
 
         [ObservableProperty]
         private string target;
 
         ///////////
 
-
-
         [RelayCommand]
-        void SetDirection(string direction)
+        void SetDirection(string directionInput)
         {
-            ResetDirection();
-            
-            //For Method 1:
-            Tag = (direction, "R1");
+            var newDirection = Enum.Parse<Direction>(directionInput);
 
-            //For Method 2:
-            if (direction is "LeftOf" or "RightOf")
+            //For Method 1a:
+            Tag = (directionInput, "R1");
+
+            //For Method 2a:
+            ResetDirection();
+            if (newDirection is Direction.LeftOf or Direction.RightOf)
             {
                 AlignVerticalCenterWith = "P1";
-                if (direction is "LeftOf") LeftOf = "P1";
+                if (newDirection is Direction.LeftOf) LeftOf = "P1";
                 else RightOf = "P1";
             }
             else
             {
                 AlignHorizontalCenterWith = "P1";
-                if (direction is "Above") Above = "P1";
+                if (newDirection is Direction.Above) Above = "P1";
                 else Below = "P1";
             }
-            PanelTag2 = true;
 
-            //For Method 3:
-            Direction = direction;
+            //For Method 3a:
+            Direction = newDirection;
             Target = "G1";
-            //if (direction is "Left") EasyLeftTarget = "G1";
-            //else if (direction is "Right") EasyRightTarget = "G1";
-            //else if (direction is "Above") EasyAboveTarget = "G1";
-            //else if (direction is "Below") EasyBelowTarget = "G1";
-            //PanelTag3 = true;
         }
 
-        
+        //For Method 2a:
         void ResetDirection()
-        {
-            //For Method 2:
-            PanelTag2 = false;
+        {  
             AlignHorizontalCenterWith = "";
             AlignVerticalCenterWith = "";
             LeftOf = "";
             RightOf = "";
             Above = "";
             Below = "";
+        }
 
-            //For Method 3:
-            PanelTag3 = false;
-            EasyLeftTarget = "";
-            EasyRightTarget = "";
-            EasyAboveTarget = "";
-            EasyBelowTarget = "";
+        ////////////////////////////////////////////////////////////////////////////////
+        /////////// In ItemsControl with RelativePanel as ItemsPanelTemplate ///////////
+        ////////////////////////////////////////////////////////////////////////////////
+
+        [ObservableProperty]
+        private bool addLeftEnabled, addRightEnabled, addAboveEnabled, addBelowEnabled;
+
+        private readonly SourceList<NumberItem> numberItemsSourceList = new();
+        private readonly ReadOnlyObservableCollection<NumberItem> numberItems;
+        public ReadOnlyObservableCollection<NumberItem> NumberItems => numberItems;
+
+        public MainViewModel()
+        {
+            numberItemsSourceList
+                .Connect()
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Bind(out numberItems)
+                .Subscribe();
+
+
+            numberItemsSourceList.Add(new NumberItem
+            {
+                Name = "N1",
+                Number = 1,
+                IsPrime = false,
+                Direction = Direction.Unset
+            });
+
+            AddLeftEnabled = true;
+            AddRightEnabled = true;
+            AddAboveEnabled = true;
+            AddBelowEnabled = true;
+        }
+
+        [RelayCommand]
+        void AddDirection(string directionInput)
+        {
+            var newDirection = Enum.Parse<Direction>(directionInput);
+            numberItemsSourceList.Add(new NumberItem
+            {
+                Name = "N" + (numberItemsSourceList.Count + 1),
+                Number = numberItemsSourceList.Count + 1,
+                IsPrime = false,
+                Direction = newDirection,
+                Neighbor = "N" + numberItemsSourceList.Count
+            });
         }
     }
 }

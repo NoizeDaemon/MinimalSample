@@ -1,20 +1,26 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Shapes;
+using Avalonia.Controls.Generators;
 using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.VisualTree;
+using DynamicData;
 using DynamicData.Binding;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MinimalSample.ViewModels;
 using ReactiveUI;
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace MinimalSample.Views
 {
@@ -26,25 +32,11 @@ namespace MinimalSample.Views
         {
             InitializeComponent();
 
-            //For Method 1:
-            ((INotifyPropertyChanged)R2).PropertyChanged += RectanglePropertyChanged;
-
-            ////For Method 2:
-            //((INotifyPropertyChanged)relativePanel2).PropertyChanged += PanelPropertyChanged;
-
-            ////For Method 3:
-            //((INotifyPropertyChanged)relativePanel3).PropertyChanged += PanelPropertyChanged;
+            //For Method 1a:
+            ((INotifyPropertyChanged)R2).PropertyChanged += RectanglePropertyChanged;           
         }
 
-        private void PanelPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            //For Method 2:
-            relativePanel2.InvalidateMeasure();
-
-            //For Method 3:
-            relativePanel3.InvalidateMeasure();
-        }
-
+        //For Method 1a:
         private void RectanglePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (R2.Tag != null && R2.IsLoaded && !rectangleIsChanging)
@@ -55,32 +47,89 @@ namespace MinimalSample.Views
                 var direction = tag.Item1;
                 var target = this.FindControl<Rectangle>((string)tag.Item2);
 
-                RelativePanel.SetAlignHorizontalCenterWith(R2, AttachedProperty<object>.UnsetValue);
-                RelativePanel.SetAlignVerticalCenterWith(R2, AttachedProperty<object>.UnsetValue);
-
-                RelativePanel.SetLeftOf(R2, AttachedProperty<object>.UnsetValue);
-                RelativePanel.SetRightOf(R2, AttachedProperty<object>.UnsetValue);
-                RelativePanel.SetBelow(R2, AttachedProperty<object>.UnsetValue);
-                RelativePanel.SetAbove(R2, AttachedProperty<object>.UnsetValue);
-
-                if (direction is "LeftOf" or "RightOf")
+                if(target is not null)
                 {
-                    RelativePanel.SetAlignVerticalCenterWith(R2, target);
+                    RelativePanel.SetAlignHorizontalCenterWith(R2, AttachedProperty<object>.UnsetValue);
+                    RelativePanel.SetAlignVerticalCenterWith(R2, AttachedProperty<object>.UnsetValue);
 
-                    if (direction is "LeftOf") RelativePanel.SetLeftOf(R2, target);
-                    else RelativePanel.SetRightOf(R2, target);
-                }
-                else
-                {
-                    RelativePanel.SetAlignHorizontalCenterWith(R2, target);
+                    RelativePanel.SetLeftOf(R2, AttachedProperty<object>.UnsetValue);
+                    RelativePanel.SetRightOf(R2, AttachedProperty<object>.UnsetValue);
+                    RelativePanel.SetBelow(R2, AttachedProperty<object>.UnsetValue);
+                    RelativePanel.SetAbove(R2, AttachedProperty<object>.UnsetValue);
 
-                    if (direction is "Above") RelativePanel.SetAbove(R2, target);
-                    else RelativePanel.SetBelow(R2, target);
+                    if (direction is "LeftOf" or "RightOf")
+                    {
+                        RelativePanel.SetAlignVerticalCenterWith(R2, target);
+
+                        if (direction is "LeftOf") RelativePanel.SetLeftOf(R2, target);
+                        else RelativePanel.SetRightOf(R2, target);
+                    }
+                    else
+                    {
+                        RelativePanel.SetAlignHorizontalCenterWith(R2, target);
+
+                        if (direction is "Above") RelativePanel.SetAbove(R2, target);
+                        else RelativePanel.SetBelow(R2, target);
+                    }
                 }
-   
-                //relativePanel1.InvalidateMeasure();
                 rectangleIsChanging = false;
             }
         }
+
+        //For Method 1b:
+        void OnResetButtonClick(object sender, RoutedEventArgs e)
+        {
+            var visuals = this.GetVisualDescendants();
+
+            //Reset RelativePanels - does nothing
+            var panels = visuals.Where(x => x is RelativePanel);
+
+            foreach(var panel in panels)
+            {
+                ((RelativePanel)panel).InvalidateMeasure();
+                ((RelativePanel)panel).InvalidateArrange();
+            }
+        }
+
+
+        //void ItemNumberLoaded(object sender, RoutedEventArgs e)
+        //{
+        //    var control = sender as Control;
+        //    var index = itemsControl1b.IndexFromContainer(control);
+        //    Debug.WriteLine(index);
+        //}
+
+
+
+
+
+
+        //void OnItemsControlLoaded(object sender, RoutedEventArgs e)
+        //{
+        //    var itemsControl = (ItemsControl)sender;
+
+        //    var visuals = (itemsControl.GetVisualDescendants()).ToObservable().ToObservableChangeSet<IEnumerable<Visual>>().AsObservableList();
+
+        //    //var panel = (Panel)visuals.Where(x => x is RelativePanel).First();
+        //    //panel.Children.CollectionChanged += OnContentPresenterCollectionChanged;
+
+        //    //((ItemContainerGenerator)itemsControl.ItemContainerGenerator).Materialized += VisualContentLoaded;
+        //}
+
+        //void OnContentPresenterCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    var newContenPresenters = e.NewItems;
+
+        //    foreach(ContentPresenter newPresenter in newContenPresenters)
+        //    {
+        //        newPresenter.Child.Loaded += VisualContentLoaded;                  
+        //    }
+        //}
+
+        //private void VisualContentLoaded(object? sender, ItemContainerEventArgs e)
+        //{
+        //    var control = (Control)sender;
+
+        //}
     }
 }
