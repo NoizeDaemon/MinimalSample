@@ -21,23 +21,33 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using System.Collections.Generic;
+using MinimalSample.Models;
+using Avalonia.Media;
+using Avalonia.Controls.Documents;
 
 namespace MinimalSample.Views
 {
     public partial class MainView : UserControl
     {
         bool rectangleIsChanging = false;
+        List<Grid> numberItemGrids = new List<Grid>();
 
         public MainView()
         {
             InitializeComponent();
 
             //For Method 1a:
-            ((INotifyPropertyChanged)R2).PropertyChanged += RectanglePropertyChanged;           
+            ((INotifyPropertyChanged)R2).PropertyChanged += RectanglePropertyChanged;
+
+            //For Method 2b:
+            numberItemGrids.Add(N1);
+
         }
 
+
+
         //For Method 1a:
-        private void RectanglePropertyChanged(object? sender, PropertyChangedEventArgs e)
+        void RectanglePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (R2.Tag != null && R2.IsLoaded && !rectangleIsChanging)
             {
@@ -91,6 +101,40 @@ namespace MinimalSample.Views
             }
         }
 
+        //For Method 2b:
+        void OnItemsControl2bLoaded(object sender, RoutedEventArgs e)
+        {
+            ((INotifyCollectionChanged)itemsControl2b.Items).CollectionChanged += OnItemNumberCollectionChanged;
+        }
+
+        void OnItemNumberCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            var newItems = e.NewItems;
+
+            foreach (NumberItem n in newItems)
+            {
+                Grid grid = new() { Name = n.Name };
+
+                EasyAlignWith.SetDirection(grid, n.Direction);
+                EasyAlignWith.SetTarget(grid, numberItemGrids.Last());
+
+                Rectangle rect = new() { Width = 25, Height = 25, Fill = Brushes.White };
+                TextBlock txt = new()
+                {
+                    Text = n.Number.ToString(),
+                    Foreground = Brushes.Black,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                grid.Children.Add(rect);
+                grid.Children.Add(txt);
+                relativePanel2b.Children.Add(grid);
+
+                numberItemGrids.Add(grid);
+            }
+        }
+
 
         //void ItemNumberLoaded(object sender, RoutedEventArgs e)
         //{
@@ -98,9 +142,6 @@ namespace MinimalSample.Views
         //    var index = itemsControl1b.IndexFromContainer(control);
         //    Debug.WriteLine(index);
         //}
-
-
-
 
 
 

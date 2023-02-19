@@ -43,7 +43,7 @@
 		</DockPanel>
 		
 		<!--Method 2a-->
-		<!--<DockPanel Grid.Row="1" Grid.Column="1">
+		<DockPanel Grid.Row="1" Grid.Column="1">
 			<TextBlock Text="Method 2a: Attached Property (Built-in)" TextAlignment="Center" DockPanel.Dock="Top"/>
 			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
 				<RelativePanel x:Name="relativePanel2">
@@ -91,7 +91,7 @@
 			</Border>
 		</DockPanel>
 		
-		--><!--Method 3a--><!--
+		<!--Method 3a-->
 		<DockPanel Grid.Row="1" Grid.Column="2">
 			<TextBlock Text="Method 3a: Attached Property (Custom)" TextAlignment="Center" DockPanel.Dock="Top"/>
 			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
@@ -108,7 +108,7 @@
 					</Rectangle>
 				</RelativePanel>
 			</Border>
-		</DockPanel>-->
+		</DockPanel>
 		
 		
 		<!--In ItemsControl with RelativePanel as ItemsPanelTemplate-->
@@ -120,9 +120,9 @@
 			<Button Click="OnResetButtonClick">Invalidate Measure/Arrange</Button>
 		</StackPanel>
 
-		<!--Method 1b-->
+		<!--Method 1b: ItemsControl-->
 		<DockPanel Grid.Row="3" Grid.Column="0">
-			<TextBlock Text="Method 1b" TextAlignment="Center" DockPanel.Dock="Top"/>
+			<TextBlock Text="Method 1b: ItemsControl" TextAlignment="Center" DockPanel.Dock="Top"/>
 			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
 				<ItemsControl x:Name="itemsControl1b" Items="{Binding NumberItems}">
 					<ItemsControl.ItemsPanel>
@@ -151,9 +151,23 @@
 							<Setter Property="RelativePanel.AlignHorizontalCenterWithPanel" Value="True"></Setter>
 							<Setter Property=""></Setter>
 						</Style>
-						
 					</ItemsControl.Styles>-->
 				</ItemsControl>
+			</Border>
+		</DockPanel>
+
+		<!--Method 2b: Dynamic Code Behind-->
+		<DockPanel Grid.Row="3" Grid.Column="1">
+			<TextBlock Text="Method 2b: Dynamic Code Behind" TextAlignment="Center" DockPanel.Dock="Top"/>
+			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
+				<RelativePanel x:Name="relativePanel2b">
+					<!--ItemsControl only holds reference to sourceList-->
+					<ItemsControl x:Name="itemsControl2b" Items="{Binding NumberItems}" IsVisible="False" Loaded="OnItemsControl2bLoaded" />
+					<Grid x:Name="N1" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+						<Rectangle Width="25" Height="25" Fill="White"/>
+						<TextBlock Text="1" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+					</Grid>
+				</RelativePanel>
 			</Border>
 		</DockPanel>
 	</Grid>

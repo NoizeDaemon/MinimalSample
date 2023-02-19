@@ -19,7 +19,7 @@ namespace MinimalSample.Models
         private bool isPrime;
 
         [ObservableProperty]
-        private Direction? direction;
+        private Direction direction;
 
         [ObservableProperty]
         private string? neighbor;

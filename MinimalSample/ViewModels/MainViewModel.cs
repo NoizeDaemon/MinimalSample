@@ -91,10 +91,13 @@ namespace MinimalSample.ViewModels
             Below = "";
         }
 
-        ////////////////////////////////////////////////////////////////////////////////
-        /////////// In ItemsControl with RelativePanel as ItemsPanelTemplate ///////////
-        ////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////
+        /////////// ItemsColletion ///////////
+        //////////////////////////////////////
 
+
+
+        //For Methods 1b & 2b
         [ObservableProperty]
         private bool addLeftEnabled, addRightEnabled, addAboveEnabled, addBelowEnabled;
 
@@ -137,6 +140,24 @@ namespace MinimalSample.ViewModels
                 Direction = newDirection,
                 Neighbor = "N" + numberItemsSourceList.Count
             });
+
+            ButtonLock(newDirection);
+        }
+
+        void ButtonLock(Direction direction)
+        {
+            AddLeftEnabled = true;
+            AddRightEnabled = true;
+            AddAboveEnabled = true;
+            AddBelowEnabled = true;
+
+            switch (direction)
+            {
+                case Direction.RightOf: AddLeftEnabled = false; break;
+                case Direction.LeftOf: AddRightEnabled = false; break;
+                case Direction.Above: AddBelowEnabled = false; break;
+                case Direction.Below: AddAboveEnabled = false; break;
+            }
         }
     }
 }
