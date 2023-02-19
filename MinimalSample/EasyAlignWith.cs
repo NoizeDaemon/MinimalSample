@@ -25,15 +25,8 @@ namespace MinimalSample
 
         private static void OnDirectionTargetPropertyChanged(AvaloniaObject obj, AvaloniaPropertyChangedEventArgs e)
         {
-            //var parent = obj.GetValue(ParentProperty);
             Direction direction = obj.GetValue(DirectionProperty);
             var targetValue = obj.GetValue(TargetProperty);
-
-            //if (parent is ContentPresenter)
-            //{
-            //    //parent.SetValue(NameProperty, obj.GetValue(NameProperty));
-            //    obj = parent;
-            //}
 
             if (direction != Direction.Unset && targetValue != AvaloniaProperty.UnsetValue && targetValue != null)
             {

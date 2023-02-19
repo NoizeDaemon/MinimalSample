@@ -6,6 +6,7 @@
 			 xmlns:local="clr-namespace:MinimalSample"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MinimalSample.Views.MainView"
+			 xmlns:model="clr-namespace:MinimalSample.Models;assembly=MinimalSample"
              Foreground="White"
              Background="#171C2C"
 			 x:DataType="viewModels:MainViewModel"
@@ -19,6 +20,22 @@
 	<UserControl.Resources>
 		<local:StringToControlConverter x:Key="stringToControlConverter"/>
 	</UserControl.Resources>
+	<UserControl.Styles>
+		<Style Selector="#itemsControl1b > ContentPresenter">
+			<Setter Property="RelativePanel.AlignHorizontalCenterWithPanel" Value="{ReflectionBinding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+			<Setter Property="RelativePanel.AlignVerticalCenterWithPanel" Value="{ReflectionBinding Neighbor, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+			<Setter Property="Name" Value="{ReflectionBinding Name}"/>
+			<Setter Property="local:EasyAlignWith.Direction" Value="{ReflectionBinding Direction}"/>
+			<Setter Property="local:EasyAlignWith.Target">
+				<Setter.Value>
+					<MultiBinding Converter="{StaticResource stringToControlConverter}" x:CompileBindings="False">
+						<Binding Path="#itemsControl1b"/>
+						<Binding Path="Neighbor" />
+					</MultiBinding>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</UserControl.Styles>
 	
 	<Grid RowDefinitions="30, *, 30, *" ColumnDefinitions="*,*,*" Margin="20">
 		
@@ -131,37 +148,24 @@
 						</ItemsPanelTemplate>
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Grid x:Name="{Binding Name}"
-								  local:EasyAlignWith.Direction="{Binding Direction}">
-								<local:EasyAlignWith.Target>
-									<MultiBinding Converter="{StaticResource stringToControlConverter}">
-										<Binding Path="$parent"/>
-										<Binding Path="Neighbor"/>
-									</MultiBinding>
-								</local:EasyAlignWith.Target>
+						<DataTemplate DataType="{x:Type model:NumberItem}">
+							<Grid>
 								<Rectangle Width="25" Height="25" Fill="White"/>
 								<TextBlock Text="{Binding Number}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 							</Grid>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
-					<!--<ItemsControl.Styles>
-						<Style Selector="ContentPresenter">
-							<Setter Property="RelativePanel.AlignVerticalCenterWithPanel" Value="True"></Setter>
-							<Setter Property="RelativePanel.AlignHorizontalCenterWithPanel" Value="True"></Setter>
-							<Setter Property=""></Setter>
-						</Style>
-					</ItemsControl.Styles>-->
 				</ItemsControl>
 			</Border>
 		</DockPanel>
 
 		<!--Method 2b: Dynamic Code Behind-->
-		<DockPanel Grid.Row="3" Grid.Column="1">
+		<!--<DockPanel Grid.Row="3" Grid.Column="1">
 			<TextBlock Text="Method 2b: Dynamic Code Behind" TextAlignment="Center" DockPanel.Dock="Top"/>
 			<Border BorderBrush="Cyan" BorderThickness="2" DockPanel.Dock="Bottom">
 				<RelativePanel x:Name="relativePanel2b">
-					<!--ItemsControl only holds reference to sourceList-->
+					--><!--ItemsControl only holds reference to sourceList-->
+				<!--
 					<ItemsControl x:Name="itemsControl2b" Items="{Binding NumberItems}" IsVisible="False" Loaded="OnItemsControl2bLoaded" />
 					<Grid x:Name="N1" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
 						<Rectangle Width="25" Height="25" Fill="White"/>
@@ -169,7 +173,7 @@
 					</Grid>
 				</RelativePanel>
 			</Border>
-		</DockPanel>
+		</DockPanel>-->
 	</Grid>
 </UserControl>
 
